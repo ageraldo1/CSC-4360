@@ -2,6 +2,15 @@
 ### Develop a mobile application for pet owners
 ____
 
+### **Group Members**
+___
++ Alexandre Geraldo
++ Diego Gonzalez
++ Henoch Tedros
++ Royan Hanson
++ Yash Soni
+
+
 ### **Requirements**
 ___
 + The mobile application must have at least eight features.
@@ -23,7 +32,7 @@ ____
     + What do they want and why?
     + What needs/goals do they have?    
 
-### **Templates**
+### **Persona form template**
 ___
 https://www.buzinga.com.au/wp-content/uploads/2014/01/User-Persona-Template.docx
 
@@ -56,3 +65,11 @@ ___
 
 7. Pet's health recommendation list
 
+
+### **Useful links**
+___
+**Pet Monitoring App Development: Hints To Make Your Software Engaging**
++ https://www.cleveroad.com/blog/apps-for-pet-owners-development-guide-of-pet-monitoring-apps
+
+**Top Mobile Apps That Every Pet Owner Should Have**
++ https://kingkanine.com/blogs/news/top-mobile-apps-that-every-pet-owner-should-have
