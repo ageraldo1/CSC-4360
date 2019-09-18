@@ -1,5 +1,5 @@
 # Proposal
-### Develop a mobile application for Pet owners
+### Develop a mobile application for pet owners
 ____
 
 ### **Requirements**
