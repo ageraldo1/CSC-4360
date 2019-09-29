@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -39,9 +41,13 @@ public class ContactAdapter extends ArrayAdapter<Contact> {
 
             TextView contactName = (TextView) v.findViewById(R.id.textContactName);
             TextView contactNumber = (TextView) v.findViewById(R.id.textPhoneNumber);
+            TextView contactCellNumber = (TextView) v.findViewById(R.id.textCellNumber);
             Button b = (Button) v.findViewById(R.id.buttonDeleteContact);
+
+
             contactName.setText(contact.getContactName());
-            contactNumber.setText(contact.getPhoneNumber());
+            contactNumber.setText("Home: ".concat(contact.getPhoneNumber()));
+            contactCellNumber.setText("Cell: ".concat(contact.getCellNumber()));
             b.setVisibility(View.INVISIBLE);
         }
         catch (Exception e) {
