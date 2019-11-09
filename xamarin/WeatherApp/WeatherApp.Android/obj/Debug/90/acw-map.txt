@@ -1,0 +1,3 @@
+WeatherApp.Droid.MainActivity, WeatherApp.Android;md5a275ec58df4689ab482eddf764044323.MainActivity
+WeatherApp.Droid.MainActivity;md5a275ec58df4689ab482eddf764044323.MainActivity
+weatherapp.droid.MainActivity;md5a275ec58df4689ab482eddf764044323.MainActivity

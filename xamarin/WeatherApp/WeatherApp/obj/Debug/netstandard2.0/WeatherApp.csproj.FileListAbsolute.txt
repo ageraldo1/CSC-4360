@@ -1,0 +1,8 @@
+C:\projects\GSU\CSC_4360\xamarin\WeatherApp\WeatherApp\bin\Debug\netstandard2.0\WeatherApp.deps.json
+C:\projects\GSU\CSC_4360\xamarin\WeatherApp\WeatherApp\bin\Debug\netstandard2.0\WeatherApp.dll
+C:\projects\GSU\CSC_4360\xamarin\WeatherApp\WeatherApp\bin\Debug\netstandard2.0\WeatherApp.pdb
+C:\projects\GSU\CSC_4360\xamarin\WeatherApp\WeatherApp\obj\Debug\netstandard2.0\WeatherApp.csprojAssemblyReference.cache
+C:\projects\GSU\CSC_4360\xamarin\WeatherApp\WeatherApp\obj\Debug\netstandard2.0\WeatherApp.AssemblyInfoInputs.cache
+C:\projects\GSU\CSC_4360\xamarin\WeatherApp\WeatherApp\obj\Debug\netstandard2.0\WeatherApp.AssemblyInfo.cs
+C:\projects\GSU\CSC_4360\xamarin\WeatherApp\WeatherApp\obj\Debug\netstandard2.0\WeatherApp.dll
+C:\projects\GSU\CSC_4360\xamarin\WeatherApp\WeatherApp\obj\Debug\netstandard2.0\WeatherApp.pdb
