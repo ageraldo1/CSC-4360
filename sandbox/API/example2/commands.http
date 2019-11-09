@@ -1,0 +1,35 @@
+# authentication
+POST http://localhost:5000/auth
+Content-Type: application/json
+
+{
+    "username" : "admin",
+    "password" : "admin"
+}
+
+
+# get item (JWT <token>)
+GET http://localhost:5000/item/item1 HTTP/1.1
+Authorization: JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NzI5Nzg5MjksImlhdCI6MTU3Mjk3ODYyOSwibmJmIjoxNTcyOTc4NjI5LCJpZGVudGl0eSI6MX0.oY-587hI4ynUofHbIvz2tcc5CF2iXP_yBBMqoO48miU
+
+# add item
+POST http://localhost:5000/item/item3 HTTP/1.1
+Content-Type: application/json
+
+{
+    "price" : 12.99
+}
+
+# get all items
+GET http://localhost:5000/items HTTP/1.1
+
+# delete item
+DELETE  http://localhost:5000/item/item1 HTTP/1.1
+
+# update item
+PUT http://localhost:5000/item/item4 HTTP/1.1
+Content-Type: application/json
+
+{
+    "price" : 59.67
+}
