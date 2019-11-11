@@ -37,6 +37,10 @@ class PetModel(db.Model):
         return PetModel.query.filter_by(name = name, owner_id = owner_id).first()
 
     @classmethod
+    def find_by_id(cls, _id, owner_id):
+        return PetModel.query.filter_by(id = _id, owner_id = owner_id).first()
+
+    @classmethod
     def find_by_owner(cls, owner_id):
         return PetModel.query.filter_by(owner_id = owner_id).all()
 

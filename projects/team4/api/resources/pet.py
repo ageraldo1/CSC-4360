@@ -27,33 +27,33 @@ class PetAPI(Resource):
             return {'message' : 'Pet created without issues'}, 201
 
 class Pet(Resource):
-    def get(self, name, owner):
-        pet = PetModel.find_by_name(name, owner)
+    def get(self, _id, owner):
+        pet = PetModel.find_by_id(_id, owner)
 
         if pet:
             return pet.json()
         else:
-            return { 'message' : f'Pet {name} not found - owner : {owner}'}, 404
+            return { 'message' : f'Pet {_id} not found - owner : {owner}'}, 404
 
-    def delete(self, name, owner):
-        pet = PetModel.find_by_name(name, owner)
+    def delete(self, _id, owner):
+        pet = PetModel.find_by_id(_id, owner)
 
         if pet:
             pet.delete()
 
-            return { 'message' : f'Pet {name} deleted - owner : {owner}'}
+            return { 'message' : f'Pet {_id} deleted - owner : {owner}'}
 
         else:
-            return { 'message' : f'Pet {name} not found - owner : {owner}'}, 404
+            return { 'message' : f'Pet {_id} not found - owner : {owner}'}, 404
 
-    def put(self, name, owner):
+    def put(self, _id, owner):
         parser = reqparse.RequestParser()
 
         parser.add_argument('sex', type=str, required=True, help="Field sex cannot be empty")
         parser.add_argument('type', type=str, required=True, help="Field type cannot be empty")
         parser.add_argument('breed', type=str, required=True, help="Field breed cannot be empty")
 
-        pet = PetModel.find_by_name(name, owner)
+        pet = PetModel.find_by_id(_id, owner)
 
         if pet:
             payload = parser.parse_args()
@@ -64,10 +64,10 @@ class Pet(Resource):
 
             pet.save()
             
-            return { 'message' : f'Pet {name} changed.'}, 404
+            return { 'message' : f'Pet {_id} changed.'}
 
         else:
-            return { 'message' : f'Pet {name} not found - owner : {owner}'}, 404
+            return { 'message' : f'Pet {_id} not found - owner : {owner}'}, 404
 
 
 class PetList(Resource):

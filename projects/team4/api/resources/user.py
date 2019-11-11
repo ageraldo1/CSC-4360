@@ -1,4 +1,4 @@
-from flask_restplus import Resource, reqparse
+from flask_restplus import Resource, Api, reqparse
 from flask_jwt import jwt_required
 from models.user import UserModel
 
