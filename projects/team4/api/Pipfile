@@ -7,9 +7,11 @@ verify_ssl = true
 
 [packages]
 flask = "*"
-flask-jwt = "*"
-flask-restful = "*"
 flask-sqlalchemy = "*"
+flask-restplus = "*"
+flask-jwt = "*"
+flask-cors = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
