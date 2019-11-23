@@ -1,7 +1,10 @@
 package com.gsu.csc.crud;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -18,6 +21,13 @@ public class details extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null ) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+
         txtID = (TextView) findViewById(R.id.txtID);
         txtName = (TextView) findViewById(R.id.txtName);
         txtSex = (TextView) findViewById(R.id.txtSex);
@@ -31,4 +41,18 @@ public class details extends AppCompatActivity {
             txtSex.setText(extras.getString("sex"));
         }
     }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
+
 }
