@@ -1,5 +1,6 @@
 package adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import com.gsu.csc.crud.R;
 import com.gsu.csc.crud.details;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import models.PetModel;
 
@@ -68,15 +71,23 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder>{
 
             PetModel currentItem = petModel.get(position);
 
-            //Toast.makeText(context, "Current id : " + currentItem.getId(), Toast.LENGTH_LONG).show();
-
             Intent intent = new Intent(context, details.class);
 
             intent.putExtra("id", currentItem.getId());
             intent.putExtra("name", currentItem.getName());
             intent.putExtra("sex", currentItem.getSex());
+            intent.putExtra("dob", new SimpleDateFormat("MMM dd, yyyy").format(currentItem.getDob()));
+            intent.putExtra("breed", currentItem.getBreed());
+            intent.putExtra("owner_id", currentItem.getOwner_id());
+            intent.putExtra("type", currentItem.getType());
 
-            context.startActivity(intent);
+
+            intent.putExtra("action", "change");
+            intent.putExtra("position", position);
+
+
+            ((Activity) context).startActivityForResult(intent, 1);
+
 
         }
     }

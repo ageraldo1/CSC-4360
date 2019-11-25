@@ -13,18 +13,20 @@ class PetAPI(Resource):
         parser.add_argument('type', type=str, required=True, help="Field type cannot be empty")
         parser.add_argument('breed', type=str, required=True, help="Field breed cannot be empty")                
         parser.add_argument('owner_id', type=int, required=True, help="Field owner_id cannot be empty")                
-        parser.add_argument('bod', type=lambda x: dt.datetime.strptime(x, "%Y-%m-%d").date(), required=True, help="Field bod cannot be empty")                
-
+        parser.add_argument('dob', type=lambda x: dt.datetime.strptime(x, "%b %d, %Y").date(), required=True, help="Field dob cannot be empty")                
         payload = parser.parse_args()
 
         if PetModel.find_by_name(payload['name'], payload['owner_id']):
             return {'message' : f'Pet {payload["name"]} already exits'}
 
         else:
-            pet = PetModel(payload['name'], payload['sex'], payload['type'], payload['breed'], payload['owner_id'], payload['bod'])
+            pet = PetModel(payload['name'], payload['sex'], payload['type'], payload['breed'], payload['owner_id'], payload['dob'])
             pet.save()
-
-            return {'message' : 'Pet created without issues'}, 201
+            
+            return {
+                    'message' : 'Pet created without issues',
+                    'record'  : pet.json()                   
+                   }, 201
 
 class Pet(Resource):
     def get(self, _id, owner):
@@ -49,22 +51,31 @@ class Pet(Resource):
     def put(self, _id, owner):
         parser = reqparse.RequestParser()
 
-        parser.add_argument('sex', type=str, required=True, help="Field sex cannot be empty")
-        parser.add_argument('type', type=str, required=True, help="Field type cannot be empty")
-        parser.add_argument('breed', type=str, required=True, help="Field breed cannot be empty")
+        parser.add_argument('name', type=str, required=False)
+        parser.add_argument('sex', type=str, required=False)
+        parser.add_argument('type', type=str, required=False)
+        parser.add_argument('breed', type=str, required=False)                
+        parser.add_argument('owner_id', type=int, required=False)                
+        parser.add_argument('dob', type=lambda x: dt.datetime.strptime(x, "%b %d, %Y").date(), required=False)                
 
         pet = PetModel.find_by_id(_id, owner)
 
         if pet:
             payload = parser.parse_args()
 
-            pet.sex = payload['sex']
-            pet.type = payload['type'] 
-            pet.breed = payload['breed'] 
+            if payload.get('name') is not None: pet.name = payload['name']
+            if payload.get('sex') is not None: pet.sex = payload['sex']
+            if payload.get('type') is not None: pet.type = payload['type']
+            if payload.get('breed') is not None: pet.breed = payload['breed']
+            if payload.get('owner_id') is not None: pet.owner_id = payload['owner_id']
+            if payload.get('dob') is not None: pet.dob = payload['dob']
 
             pet.save()
             
-            return { 'message' : f'Pet {_id} changed.'}
+            return { 
+                    'message' : f'Pet {_id} changed.',
+                    'record'  : pet.json()
+                   }
 
         else:
             return { 'message' : f'Pet {_id} not found - owner : {owner}'}, 404

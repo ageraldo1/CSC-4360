@@ -6,21 +6,21 @@ class PetModel(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    sex = db.Column(db.String(1))
+    sex = db.Column(db.String)
     type = db.Column(db.String)
     breed = db.Column(db.String)
-    bod = db.Column(db.Date)
+    dob = db.Column(db.Date)
     
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     owner = db.relationship('UserModel')
 
-    def __init__(self, name, sex, type, breed, owner_id, bod):
+    def __init__(self, name, sex, type, breed, owner_id, dob):
         self.name = name
         self.sex = sex
         self.type = type
         self.breed = breed
         self.owner_id = owner_id
-        self.bod = bod
+        self.dob = dob
 
     def json(self):
         return { 'id'    : self.id,
@@ -29,7 +29,7 @@ class PetModel(db.Model):
                  'type'  : self.type,
                  'breed' : self.breed,
                  'owner' : self.owner_id,
-                 'bod'   : self.bod.__str__()
+                 'dob'   : self.dob.__str__()
                }
 
     @classmethod
