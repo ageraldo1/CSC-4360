@@ -2,5 +2,7 @@ import os
 
 PROPAGATE_EXCEPTIONS = True
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_ECHO = False
 SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///petman.db')
 SECRET_KEY = "password"
+

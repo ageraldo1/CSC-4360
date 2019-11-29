@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 
-
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -47,19 +46,19 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.nav_doctor:
-                        Toast.makeText(getApplicationContext(), "Doctor clicked", Toast.LENGTH_SHORT).show();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new UnderConstructionFragment()).commit();
                         break;
 
                     case R.id.nav_task:
-                        Toast.makeText(getApplicationContext(), "Tasks clicked", Toast.LENGTH_SHORT).show();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new TaskFragment()).commit();
                         break;
 
                     case R.id.nav_advisor:
-                        Toast.makeText(getApplicationContext(), "Advisor clicked", Toast.LENGTH_SHORT).show();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new UnderConstructionFragment()).commit();
                         break;
 
                     case R.id.nav_user:
-                        Toast.makeText(getApplicationContext(), "Members clicked", Toast.LENGTH_SHORT).show();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new UnderConstructionFragment()).commit();
                         break;
 
                     case R.id.nav_logout:

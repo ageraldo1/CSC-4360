@@ -24,6 +24,10 @@ from resources.advisor import AdvisorAPI
 from resources.advisor import Advisor
 from resources.advisor import AdviceList
 
+from resources.order import OrderAPI
+from resources.order import Order
+from resources.order import OrderList
+
 app = Flask(__name__)
 app.config.from_object('config')
 
@@ -57,6 +61,10 @@ api.add_resource(TaskList, '/tasks/<string:owner>')
 api.add_resource(AdvisorAPI, '/advice')
 api.add_resource(Advisor, '/advice/<string:_id>/<string:owner>')
 api.add_resource(AdviceList, '/advices/<string:owner>')
+
+api.add_resource(OrderAPI, '/order')
+api.add_resource(Order, '/order/<string:_id>/<string:owner>')
+api.add_resource(OrderList, '/orders/<string:owner>')
 
 if __name__ == '__main__':
     app.run(debug=True)

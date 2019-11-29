@@ -2,7 +2,12 @@ package com.gsu.csc.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +15,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gsu.csc.models.PetModel;
+import com.gsu.csc.petman.PetFragment;
+import com.gsu.csc.petman.PetFragmentDetails;
 import com.gsu.csc.petman.R;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder>{
@@ -66,25 +74,22 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder>{
 
             PetModel currentItem = petModel.get(position);
 
-            /*
-            Intent intent = new Intent(context, details.class);
+            Bundle bundle = new Bundle();
 
-            intent.putExtra("id", currentItem.getId());
-            intent.putExtra("name", currentItem.getName());
-            intent.putExtra("sex", currentItem.getSex());
-            intent.putExtra("dob", new SimpleDateFormat("MMM dd, yyyy").format(currentItem.getDob()));
-            intent.putExtra("breed", currentItem.getBreed());
-            intent.putExtra("owner_id", currentItem.getOwner_id());
-            intent.putExtra("type", currentItem.getType());
+            bundle.putInt("id", currentItem.getId());
+            bundle.putString("name", currentItem.getName());
+            bundle.putString("sex", currentItem.getSex());
+            bundle.putString("dob", new SimpleDateFormat("MMM dd, yyyy").format(currentItem.getDob()));
+            bundle.putString("breed", currentItem.getBreed());
+            bundle.putInt("owner_id", currentItem.getOwner_id());
+            bundle.putString("type", currentItem.getType());
+            bundle.putString("action", "change");
+            bundle.putInt("position", position);
 
+            PetFragmentDetails petFragmentDetails = new PetFragmentDetails();
+            petFragmentDetails.setArguments(bundle);
 
-            intent.putExtra("action", "change");
-            intent.putExtra("position", position);
-
-
-            ((Activity) context).startActivityForResult(intent, 1);
-             */
-
+            (((AppCompatActivity) context)).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, petFragmentDetails).commit();
 
         }
 

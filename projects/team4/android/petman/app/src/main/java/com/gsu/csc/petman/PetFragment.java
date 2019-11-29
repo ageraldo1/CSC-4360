@@ -1,18 +1,24 @@
 package com.gsu.csc.petman;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -47,16 +53,11 @@ public class PetFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_pet, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view =  inflater.inflate(R.layout.fragment_pet, container, false);
 
         GlobalVariables globalVariables = (GlobalVariables) getActivity().getApplicationContext();
 
-        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -67,29 +68,34 @@ public class PetFragment extends Fragment {
             }
         });
 
-
-        floatingActionButton = (FloatingActionButton) getView().findViewById(R.id.fab);
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), PetFragmentDetails.class);
-                intent.putExtra("owner_id", globalVariables.getUserId());
-                intent.putExtra("action", "add");
+                Bundle bundle = new Bundle();
+                bundle.putString("action", "add");
 
-                //v.getContext().startActivityForResult(intent);
-                // error here
-                getActivity().startActivityForResult(intent, 1);
+                PetFragmentDetails petFragmentDetails = new PetFragmentDetails();
+                petFragmentDetails.setArguments(bundle);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.fragment_container, petFragmentDetails).commit();
             }
         });
 
-        recyclerView = getView().findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         petModelList = new ArrayList<>();
         requestQueue = Volley.newRequestQueue(getContext());
         loadPetsList(false, globalVariables.getUserId());
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        return view;
     }
 
     private void loadPetsList(final boolean reload, int owner_id) {
@@ -142,6 +148,81 @@ public class PetFragment extends Fragment {
         request.setRetryPolicy(new DefaultRetryPolicy(Integer.parseInt(getString(R.string.API_FETCH_TIMEOUT)),  DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(request);
+    }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+            final int position = viewHolder.getAdapterPosition();
+
+            AlertDialog.Builder alertDialogBuilder;
+
+            switch (i){
+                case ItemTouchHelper.LEFT:
+
+                    alertDialogBuilder = new AlertDialog.Builder(getContext())
+                            .setTitle(R.string.dialog_title)
+                            .setMessage(R.string.dialog_message)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.dialog_btn_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    int ownerId = petModelList.get(position).getOwner_id();
+                                    int petId = petModelList.get(position).getId();
+
+                                    deleteRecord(ownerId, petId );
+
+                                    petModelList.remove(position);
+                                    petAdapter.notifyItemRemoved(position);
+                                }
+                            })
+                            .setNegativeButton(R.string.dialog_btn_no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    petAdapter.notifyDataSetChanged();
+                                    dialogInterface.cancel();
+                                }
+                            });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+
+                    break;
+
+                case ItemTouchHelper.RIGHT:
+                    break;
+            }
+
+        }
+    };
+
+    private boolean deleteRecord(int ownerId, int petId) {
+        String url = getString(R.string.API_URL).concat("/pet/" + petId + "/" + ownerId);
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(getContext(), "Record removed without issues", Toast.LENGTH_LONG).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "Error removing record - " + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(30000,  DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(request);
+
+        return true;
     }
 
 

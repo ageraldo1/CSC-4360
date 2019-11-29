@@ -12,6 +12,9 @@ flask-restplus = "*"
 flask-jwt = "*"
 flask-cors = "*"
 gunicorn = "*"
+pandas = "*"
+fbprophet = "*"
+pystan = "*"
 
 [requires]
 python_version = "3.7"
