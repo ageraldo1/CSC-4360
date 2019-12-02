@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gsu.csc.models.PetModel;
@@ -47,6 +48,30 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder>{
 
         petViewHolder.txtName.setText(item.getName());
         petViewHolder.txtBreed.setText(item.getBreed());
+
+        switch (item.getType().toLowerCase()) {
+            case "dog":
+                petViewHolder.imgPet.setImageResource(R.drawable.ic_dog);
+                break;
+
+            case "cat":
+                petViewHolder.imgPet.setImageResource(R.drawable.ic_cat);
+                break;
+
+            case "fish":
+                petViewHolder.imgPet.setImageResource(R.drawable.ic_fish);
+                break;
+
+            case "bird":
+                petViewHolder.imgPet.setImageResource(R.drawable.ic_bird);
+                break;
+
+            case "turtle":
+                petViewHolder.imgPet.setImageResource(R.drawable.ic_turtle);
+                break;
+
+        }
+
     }
 
     @Override
@@ -57,6 +82,7 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder>{
     public class PetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView txtName;
         private TextView txtBreed;
+        private ImageView imgPet;
 
 
         public PetViewHolder(@NonNull View itemView) {
@@ -66,6 +92,7 @@ public class PetAdapter extends RecyclerView.Adapter<PetAdapter.PetViewHolder>{
 
             txtName = itemView.findViewById(R.id.txtName);
             txtBreed = itemView.findViewById(R.id.breed);
+            imgPet = itemView.findViewById(R.id.img_pet);
         }
 
         @Override
