@@ -12,7 +12,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:src="@drawable/login_icon"/>
+        android:src="@drawable/ic_final_icon"/>
 
     <TextView
         android:layout_width="match_parent"
